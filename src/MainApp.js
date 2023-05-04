@@ -34,6 +34,7 @@ const MainApp = () => {
     dispatch(setData({
       data : data.data  
     }));
+    setProgress(90);
   }
 
 
