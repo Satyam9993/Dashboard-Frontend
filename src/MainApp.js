@@ -23,8 +23,6 @@ const MainApp = () => {
   useEffect(() => {
     setProgress(10)
     fetchData();
-    setProgress(100);
-    setProgress(0);
   }, [])
 
   const fetchData = async () => {
@@ -35,7 +33,7 @@ const MainApp = () => {
     dispatch(setData({
       data : data.data  
     }));
-    setProgress(90);
+    setProgress(100);
   }
 
 
