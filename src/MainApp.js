@@ -24,6 +24,7 @@ const MainApp = () => {
     setProgress(10)
     fetchData();
     setProgress(100);
+    setProgress(0);
   }, [])
 
   const fetchData = async () => {
