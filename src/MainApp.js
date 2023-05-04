@@ -5,11 +5,14 @@ import Main from './Components/Main'
 import { useDispatch, useSelector } from 'react-redux'
 import { setData } from './reducer'
 import { useNavigate } from 'react-router-dom';
+import LoadingBar from 'react-top-loading-bar';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const MainApp = () => {
   const dispatch = useDispatch();
   const { user , usertoken } = useSelector(state => state.data);
+  const [sideNavOpen, setsideNavOpen] = useState(false)
+  const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
   useEffect(() => {
     if(!user || !usertoken){
@@ -18,19 +21,22 @@ const MainApp = () => {
   }, [usertoken])
 
   useEffect(() => {
+    setProgress(10)
     fetchData();
+    setProgress(100);
   }, [])
 
   const fetchData = async () => {
+    setProgress(40);
     const dataset = await fetch(`${BACKEND_URL}/data`);
+    setProgress(70);
     const data = await dataset.json();
     dispatch(setData({
-      data : data.data
+      data : data.data  
     }));
   }
 
 
-  const [sideNavOpen, setsideNavOpen] = useState(false)
 
   const changeSideNav = () => {
     setsideNavOpen(!sideNavOpen);
@@ -39,10 +45,14 @@ const MainApp = () => {
   return (
     <>
       <div>
-        <Navbar changeSideNav={changeSideNav} sideNavOpen={sideNavOpen} />
+        <LoadingBar
+          color='#f11946'
+          progress={progress}
+        />
+        <Navbar changeSideNav={changeSideNav} sideNavOpen={sideNavOpen}/>
         <div className="flex overflow-hidden bg-gray-900 pt-16">
-          <SideNav changeSideNav={changeSideNav} sideNavOpen={sideNavOpen} />
-          <Main />
+          <SideNav changeSideNav={changeSideNav} sideNavOpen={sideNavOpen} setProgress={setProgress} />
+          <Main setProgress/>
         </div>
       </div>
     </>

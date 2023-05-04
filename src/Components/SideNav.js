@@ -14,9 +14,9 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 
 
-const SideNav = ({ changeSideNav, sideNavOpen }) => {
+const SideNav = ({ changeSideNav, sideNavOpen, setProgress }) => {
     const dispatch = useDispatch();
-    const {user, usertoken} = useSelector(state => state.data);
+    const { user, usertoken } = useSelector(state => state.data);
     const {
         end_year,
         sector,
@@ -29,6 +29,7 @@ const SideNav = ({ changeSideNav, sideNavOpen }) => {
     } = useSelector(state => state.data);
 
     const ApplyFilter = async () => {
+        setProgress(10);
         const body = {
             end_year,
             sector,
@@ -42,18 +43,20 @@ const SideNav = ({ changeSideNav, sideNavOpen }) => {
         const dataset = await fetch(`${BACKEND_URL}/filter`, {
             method: "PUT",
             headers: {
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(body), 
-          });
+            body: JSON.stringify(body),
+        });
+        setProgress(40);
 
         const data = await dataset.json();
         dispatch(setData({
             data: data.data
         }));
+        setProgress(100);
     };
 
-    const logout = ()=> {
+    const logout = () => {
         dispatch(setLogout());
     }
 
@@ -79,8 +82,8 @@ const SideNav = ({ changeSideNav, sideNavOpen }) => {
                                     <FilterSection filterName={'pestle'} filterValue={filterValuesbyPestle} filterId={"Pestle"} />
                                 </li>
                                 <li className='w-full'>
-                                    {(!user || !usertoken) ?<Link to="/login" className="font-medium border-2 p-2 border-white text-gray-400 hover:text-blue-600 cursor-pointer">Login</Link>:
-                                    <button className="font-medium border-2 p-2 border-white text-gray-400 hover:text-blue-600 cursor-pointer" onClick={logout}>Logout</button>}
+                                    {(!user || !usertoken) ? <Link to="/login" className="font-medium border-2 p-2 border-white text-gray-400 hover:text-blue-600 cursor-pointer">Login</Link> :
+                                        <button className="font-medium border-2 p-2 border-white text-gray-400 hover:text-blue-600 cursor-pointer" onClick={logout}>Logout</button>}
                                 </li>
                             </ul>
                         </div>
