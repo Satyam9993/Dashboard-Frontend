@@ -25,14 +25,14 @@ ChartJS.register(
     Filler
 );
 
-const LineGraph = ({dataset, labels}) => {
+const LineGraph = ({dataset, labels, title}) => {
 
     const data = {
         labels,
         datasets: [
             {
                 fill: true,
-                label: 'pestle',
+                label: title,
                 data: dataset,
                 borderColor: 'rgb(53, 162, 235)',
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',

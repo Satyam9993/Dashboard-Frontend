@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 const Section1Left = () => {
     const { data } = useSelector((state) => state.data);
-
+    const [title, setTitle] = useState("")
     useEffect(() => {
         countEntriesPestle();
         setactivetab('Pestle');
@@ -22,6 +22,7 @@ const Section1Left = () => {
         });
         setLabels(Object.keys(result));
         setDataset(Object.values(result));
+        setTitle("Group by Region");
     }
 
     const countEntriesPestle = () => {
@@ -35,6 +36,7 @@ const Section1Left = () => {
         });
         setLabels(Object.keys(result));
         setDataset(Object.values(result));
+        setTitle("Group by Pestle");
     }
 
     const [activetab, setactivetab] = useState("Pestle");
@@ -72,7 +74,7 @@ const Section1Left = () => {
                         <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-400">{data.length}</span>
                     </div>
                 </div>
-                <LineGraph dataset={dataset} labels={labels} />
+                <LineGraph dataset={dataset} labels={labels} title={title}/>
             </div>
         </>
     )
